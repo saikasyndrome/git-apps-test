@@ -1,0 +1,10 @@
+# push-main / manual 트리거용
+steps:
+  - name: "ubuntu"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        echo "Cloud Build OK"
+        echo "BRANCH=$$BRANCH_NAME COMMIT=$$COMMIT_SHA"
+        date -u

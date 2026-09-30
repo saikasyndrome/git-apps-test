@@ -1,0 +1,17 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# 실제 값 들어가는 tfvars는 올리지 않음
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
