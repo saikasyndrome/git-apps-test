@@ -1,4 +1,4 @@
-# push-main / manual 트리거용
+# 테스트용
 steps:
   - name: "ubuntu"
     entrypoint: "bash"
@@ -8,3 +8,7 @@ steps:
         echo "Cloud Build OK"
         echo "BRANCH=$$BRANCH_NAME COMMIT=$$COMMIT_SHA"
         date -u
+
+# 커스텀 SA 사용 시 로그 버킷 대신 Cloud Logging만 사용
+options:
+  logging: CLOUD_LOGGING_ONLY
