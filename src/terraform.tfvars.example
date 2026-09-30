@@ -1,0 +1,10 @@
+# 복사해서 사용: cp terraform.tfvars.example terraform.tfvars
+project_id           = ""
+project_number       = ""
+repo_uri             = ""
+installation_id      = 0
+github_pat_secret_id = ""
+# region             = "asia-northeast1"
+
+# 콘솔 GitHub App 저장소 연결 repository ID
+console_repository = ""
