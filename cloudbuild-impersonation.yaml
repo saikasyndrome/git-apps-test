@@ -10,7 +10,7 @@ steps:
       - "-c"
       - |
         set -euo pipefail
-        echo "BRANCH=$$BRANCH_NAME COMMIT=$$COMMIT_SHA"
+        echo "BRANCH=$${BRANCH_NAME:-n/a} COMMIT=$${COMMIT_SHA:-n/a}"
         echo "Impersonating SA: ${_TF_SA}"
 
         gcloud auth print-access-token \

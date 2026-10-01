@@ -7,16 +7,14 @@ steps:
       - "-c"
       - |
         set -euo pipefail
-        echo "BRANCH=$$BRANCH_NAME COMMIT=$$COMMIT_SHA"
+        echo "BRANCH=$${BRANCH_NAME:-n/a} COMMIT=$${COMMIT_SHA:-n/a}"
         echo "Mode: NO impersonation (direct SA)"
 
-        # 현재 자격 증명(빌드 실행 SA) 확인 — 권한 차용 없음
         echo "Active account:"
         gcloud auth list --filter=status:ACTIVE --format='value(account)'
 
-        # GOOGLE_IMPERSONATE_SERVICE_ACCOUNT 미설정 확인
-        if [ -n "${GOOGLE_IMPERSONATE_SERVICE_ACCOUNT:-}" ]; then
-          echo "Unexpected impersonation env: ${GOOGLE_IMPERSONATE_SERVICE_ACCOUNT}"
+        if [ -n "$${GOOGLE_IMPERSONATE_SERVICE_ACCOUNT:-}" ]; then
+          echo "Unexpected impersonation env: $${GOOGLE_IMPERSONATE_SERVICE_ACCOUNT}"
           exit 1
         fi
         echo "GOOGLE_IMPERSONATE_SERVICE_ACCOUNT is unset"
