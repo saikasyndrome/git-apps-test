@@ -1,14 +1,27 @@
-# 테스트용
+# 기존 트리거용 — impersonation 없이 cloudbuild-test SA 직접 실행
 steps:
-  - name: "ubuntu"
+  - id: "direct-sa-check"
+    name: "gcr.io/cloud-builders/gcloud"
     entrypoint: "bash"
     args:
       - "-c"
       - |
-        echo "Cloud Build OK"
+        set -euo pipefail
         echo "BRANCH=$$BRANCH_NAME COMMIT=$$COMMIT_SHA"
+        echo "Mode: NO impersonation (direct SA)"
+
+        # 현재 자격 증명(빌드 실행 SA) 확인 — 권한 차용 없음
+        echo "Active account:"
+        gcloud auth list --filter=status:ACTIVE --format='value(account)'
+
+        # GOOGLE_IMPERSONATE_SERVICE_ACCOUNT 미설정 확인
+        if [ -n "${GOOGLE_IMPERSONATE_SERVICE_ACCOUNT:-}" ]; then
+          echo "Unexpected impersonation env: ${GOOGLE_IMPERSONATE_SERVICE_ACCOUNT}"
+          exit 1
+        fi
+        echo "GOOGLE_IMPERSONATE_SERVICE_ACCOUNT is unset"
+        echo "Direct SA mode OK"
         date -u
 
-# 커스텀 SA 사용 시 로그 버킷 대신 Cloud Logging만 사용
 options:
   logging: CLOUD_LOGGING_ONLY

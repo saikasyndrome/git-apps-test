@@ -1,0 +1,24 @@
+# 신규 트리거용 — Executor SA → Terraform SA impersonation
+steps:
+  - id: "impersonation-test"
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    env:
+      - "GOOGLE_IMPERSONATE_SERVICE_ACCOUNT=${_TF_SA}"
+      - "CLOUDSDK_AUTH_IMPERSONATE_SERVICE_ACCOUNT=${_TF_SA}"
+    args:
+      - "-c"
+      - |
+        set -euo pipefail
+        echo "BRANCH=$$BRANCH_NAME COMMIT=$$COMMIT_SHA"
+        echo "Impersonating SA: ${_TF_SA}"
+
+        gcloud auth print-access-token \
+          --impersonate-service-account="${_TF_SA}" \
+          >/dev/null
+
+        echo "Service Account Impersonation OK"
+        date -u
+
+options:
+  logging: CLOUD_LOGGING_ONLY
